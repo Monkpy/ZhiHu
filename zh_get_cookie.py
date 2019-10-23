@@ -4,8 +4,6 @@ import random
 import time
 from urllib import request
 
-import pytesseract
-from PIL import Image
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 
@@ -34,10 +32,10 @@ class Zhihu(object):
         pwd_login = self.driver.find_element_by_xpath('//*[@id="root"]/div/main/div/div/div[1]/div/form/div[1]/div[2]')
         pwd_login.click()
         time.sleep(1)
-        username = self.driver.find_element_by_xpath('//*[@id="root"]/div/main/div/div/div[1]/div/form/div[2]/div[2]/div[1]/input')
+        username = self.driver.find_element_by_xpath('//*[@id="root"]/div/main/div/div/div[1]/div/form/div[2]/div/label/input')
         username.send_keys('账号')
         time.sleep(t)
-        password = self.driver.find_element_by_xpath('//*[@id="root"]/div/main/div/div/div[1]/div/form/div[3]/div/div[1]/input')
+        password = self.driver.find_element_by_xpath('//*[@id="root"]/div/main/div/div/div[1]/div/form/div[3]/div/label/input')
         password.send_keys('密码')
         time.sleep(t)
         try:
@@ -83,7 +81,8 @@ class Zhihu(object):
                 '''
                 request.urlretrieve(zh_code_cn, './Images/zh_code_cn.png')
                 time.sleep(5)  # 睡5秒-->人工点击（目前还没有好的解决方法）
-            '''
+                '''
+                # 定位抓取文字验证码图片
                 chinese_captcha_element = self.driver.find_element_by_class_name("Captcha-chineseImg")
                 ele_postion = chinese_captcha_element.location
                 x_relative = ele_postion["x"]
@@ -131,10 +130,10 @@ class Zhihu(object):
                 pass
             else:
                 print(e)
-
+        time.sleep(3)
         login_button = self.driver.find_element_by_xpath('//*[@id="root"]/div/main/div/div/div[1]/div/form/button')
         login_button.click()
-        time.sleep(3)
+        time.sleep(2)
         print('------------')
         # 获取cookie
         cookie = {}
